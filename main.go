@@ -3,11 +3,10 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	"mytokulist/controllers"
 	"mytokulist/database"
+	"mytokulist/routers"
 	"os"
 
-	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
@@ -42,23 +41,6 @@ func main() {
 
 	defer DB.Close()
 
-	//Router
-	router := gin.Default()
-	router.GET("/categories", controllers.GetAllCategory)
-	router.POST("/categories", controllers.InsertCategory)
-	router.PUT("/categories/:id", controllers.UpdateCategory)
-	router.DELETE("/categories/:id", controllers.DeleteCategory)
-
-	router.GET("/types", controllers.GetAllType)
-	router.POST("/types", controllers.InsertType)
-	router.PUT("/types/:id", controllers.UpdateType)
-	router.DELETE("/types/:id", controllers.DeleteType)
-
-	router.GET("/status", controllers.GetAllStatus)
-	router.POST("/status", controllers.InsertStatus)
-	router.PUT("/status/:id", controllers.UpdateStatus)
-	router.DELETE("/status/:id", controllers.DeleteStatus)
-
-	router.Run("localhost:8080")
+	routers.StartServer().Run("localhost:8080")
 
 }
