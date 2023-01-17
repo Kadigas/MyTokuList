@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"mytokulist/controllers"
 	"mytokulist/database"
 	"os"
 
@@ -43,6 +44,15 @@ func main() {
 
 	//Router
 	router := gin.Default()
+	router.GET("/categories", controllers.GetAllCategory)
+	router.POST("/categories", controllers.InsertCategory)
+	router.PUT("/categories/:id", controllers.UpdateCategory)
+	router.DELETE("/categories/:id", controllers.DeleteCategory)
+
+	router.GET("/types", controllers.GetAllType)
+	router.POST("/types", controllers.InsertType)
+	router.PUT("/types/:id", controllers.UpdateType)
+	router.DELETE("/types/:id", controllers.DeleteType)
 
 	router.Run("localhost:8080")
 
