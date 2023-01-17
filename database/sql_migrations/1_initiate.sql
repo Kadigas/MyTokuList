@@ -15,6 +15,13 @@ CREATE TABLE type (
     updated_at TIMESTAMP DEFAULT NOW()
 );
 
+CREATE TABLE status (
+    id SERIAL NOT NULL PRIMARY KEY,
+    name VARCHAR(256),
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW()
+);
+
 CREATE TABLE movie (
     id SERIAL NOT NULL PRIMARY KEY,
     title VARCHAR(256),
@@ -25,6 +32,7 @@ CREATE TABLE movie (
     status VARCHAR(100),
     category_id BIGINT,
     type_id BIGINT,
+    status_id BIGINT,
     created_at TIMESTAMP DEFAULT NOW(),
     updated_at TIMESTAMP DEFAULT NOW()
 );
@@ -51,11 +59,15 @@ CREATE TABLE watchlist (
     movie_id BIGINT
 );
 
+
 ALTER TABLE movie
 ADD CONSTRAINT fk_movie_category FOREIGN KEY (category_id) REFERENCES category (id);
 
 ALTER TABLE movie
 ADD CONSTRAINT fk_movie_type FOREIGN KEY (type_id) REFERENCES type (id);
+
+ALTER TABLE movie
+ADD CONSTRAINT fk_movie_status FOREIGN KEY (status_id) REFERENCES status (id);
 
 ALTER TABLE users
 ADD CONSTRAINT fk_users_account FOREIGN KEY (account_id) REFERENCES account (id);
