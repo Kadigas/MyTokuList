@@ -15,24 +15,18 @@ CREATE TABLE type (
     updated_at TIMESTAMP DEFAULT NOW()
 );
 
-CREATE TABLE status (
-    id SERIAL NOT NULL PRIMARY KEY,
-    name VARCHAR(256),
-    created_at TIMESTAMP DEFAULT NOW(),
-    updated_at TIMESTAMP DEFAULT NOW()
-);
+CREATE TYPE status AS ENUM ('Airing', 'Upcoming', 'Finished');
 
 CREATE TABLE movie (
     id SERIAL NOT NULL PRIMARY KEY,
     title VARCHAR(256),
-    description VARCHAR(256),
+    description TEXT,
 	image_url VARCHAR(256),
-	aired VARCHAR(256),
-    total_episode INT,
-    status VARCHAR(100),
+	air_date VARCHAR(256),
+    total_episode VARCHAR(10),
+    current_status status,
     category_id BIGINT,
     type_id BIGINT,
-    status_id BIGINT,
     created_at TIMESTAMP DEFAULT NOW(),
     updated_at TIMESTAMP DEFAULT NOW()
 );
@@ -65,9 +59,6 @@ ADD CONSTRAINT fk_movie_category FOREIGN KEY (category_id) REFERENCES category (
 
 ALTER TABLE movie
 ADD CONSTRAINT fk_movie_type FOREIGN KEY (type_id) REFERENCES type (id);
-
-ALTER TABLE movie
-ADD CONSTRAINT fk_movie_status FOREIGN KEY (status_id) REFERENCES status (id);
 
 ALTER TABLE users
 ADD CONSTRAINT fk_users_account FOREIGN KEY (account_id) REFERENCES account (id);

@@ -19,10 +19,10 @@ func StartServer() *gin.Engine {
 	router.PUT("/types/:id", controllers.UpdateType)
 	router.DELETE("/types/:id", controllers.DeleteType)
 
-	router.GET("/status", controllers.GetAllStatus)
-	router.POST("/status", controllers.InsertStatus)
-	router.PUT("/status/:id", controllers.UpdateStatus)
-	router.DELETE("/status/:id", controllers.DeleteStatus)
+	router.GET("/movies", controllers.GetAllMovie)
+	router.POST("/movies", controllers.InsertMovie)
+	router.PUT("/movies/:id", controllers.UpdateMovie)
+	router.DELETE("/movies/:id", controllers.DeleteMovie)
 
 	return router
 }
