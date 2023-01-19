@@ -3,6 +3,7 @@ package controllers
 import (
 	"mytokulist/database"
 	"mytokulist/models"
+	"mytokulist/repository"
 	"net/http"
 	"os"
 	"time"
@@ -179,7 +180,7 @@ func NewPassword(c *gin.Context) {
 		return
 	}
 
-	sql := "UPDATE Users SET password = $1, updated_at = $ 2 WHERE id = $3"
+	sql := "UPDATE users SET password = $1, updated_at = $2 WHERE id = $3"
 
 	err = db.QueryRow(sql, hash, time.Now().Format(time.RFC3339), user.(models.Users).ID).Err()
 
@@ -194,4 +195,44 @@ func NewPassword(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Success to update password",
 	})
+}
+
+func GetAdmins(c *gin.Context) {
+	var (
+		result gin.H
+	)
+
+	admin, err := repository.GetAdmins(database.DbConnection)
+
+	if err != nil {
+		result = gin.H{
+			"result": err,
+		}
+	} else {
+		result = gin.H{
+			"result": admin,
+		}
+	}
+
+	c.JSON(http.StatusOK, result)
+}
+
+func GetUsers(c *gin.Context) {
+	var (
+		result gin.H
+	)
+
+	user, err := repository.GetUsers(database.DbConnection)
+
+	if err != nil {
+		result = gin.H{
+			"result": err,
+		}
+	} else {
+		result = gin.H{
+			"result": user,
+		}
+	}
+
+	c.JSON(http.StatusOK, result)
 }
