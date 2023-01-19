@@ -2,12 +2,17 @@ package routers
 
 import (
 	"mytokulist/controllers"
+	"mytokulist/middleware"
 
 	"github.com/gin-gonic/gin"
 )
 
 func StartServer() *gin.Engine {
 	router := gin.Default()
+
+	router.POST("/signup", controllers.Register)
+	router.POST("/login", controllers.Login)
+	router.GET("/validate", middleware.RequiredAuth("User"), controllers.Validate)
 
 	router.GET("/categories", controllers.GetAllCategory)
 	router.POST("/categories", controllers.InsertCategory)
