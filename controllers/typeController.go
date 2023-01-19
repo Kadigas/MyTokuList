@@ -2,8 +2,8 @@ package controllers
 
 import (
 	"mytokulist/database"
+	"mytokulist/models"
 	"mytokulist/repository"
-	"mytokulist/structs"
 	"net/http"
 	"strconv"
 
@@ -31,7 +31,7 @@ func GetAllType(c *gin.Context) {
 }
 
 func InsertType(c *gin.Context) {
-	var tipe structs.Type
+	var tipe models.Type
 
 	err := c.ShouldBindJSON(&tipe)
 	if err != nil {
@@ -49,7 +49,7 @@ func InsertType(c *gin.Context) {
 }
 
 func UpdateType(c *gin.Context) {
-	var tipe structs.Type
+	var tipe models.Type
 
 	id, _ := strconv.Atoi(c.Param("id"))
 
@@ -71,7 +71,7 @@ func UpdateType(c *gin.Context) {
 }
 
 func DeleteType(c *gin.Context) {
-	var tipe structs.Type
+	var tipe models.Type
 
 	id, err := strconv.Atoi(c.Param("id"))
 

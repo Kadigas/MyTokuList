@@ -2,8 +2,8 @@ package controllers
 
 import (
 	"mytokulist/database"
+	"mytokulist/models"
 	"mytokulist/repository"
-	"mytokulist/structs"
 	"net/http"
 	"strconv"
 
@@ -31,7 +31,7 @@ func GetAllMovie(c *gin.Context) {
 }
 
 func InsertMovie(c *gin.Context) {
-	var movie structs.Movie
+	var movie models.Movie
 
 	err := c.ShouldBindJSON(&movie)
 	if err != nil {
@@ -49,7 +49,7 @@ func InsertMovie(c *gin.Context) {
 }
 
 func UpdateMovie(c *gin.Context) {
-	var movie structs.Movie
+	var movie models.Movie
 
 	id, _ := strconv.Atoi(c.Param("id"))
 
@@ -71,7 +71,7 @@ func UpdateMovie(c *gin.Context) {
 }
 
 func DeleteMovie(c *gin.Context) {
-	var movie structs.Movie
+	var movie models.Movie
 
 	id, err := strconv.Atoi(c.Param("id"))
 
@@ -92,7 +92,7 @@ func DeleteMovie(c *gin.Context) {
 }
 
 func AttachMovie(c *gin.Context) {
-	var movie structs.Movie
+	var movie models.Movie
 
 	id, _ := strconv.Atoi(c.Param("id"))
 

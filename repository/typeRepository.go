@@ -2,11 +2,11 @@ package repository
 
 import (
 	"database/sql"
-	"mytokulist/structs"
+	"mytokulist/models"
 	"time"
 )
 
-func GetAllType(db *sql.DB) (results []structs.Type, err error) {
+func GetAllType(db *sql.DB) (results []models.Type, err error) {
 	sql := "SELECT * FROM type"
 
 	rows, err := db.Query(sql)
@@ -18,7 +18,7 @@ func GetAllType(db *sql.DB) (results []structs.Type, err error) {
 	defer rows.Close()
 
 	for rows.Next() {
-		var tipe = structs.Type{}
+		var tipe = models.Type{}
 
 		err = rows.Scan(&tipe.ID, &tipe.Name, &tipe.Created_at, &tipe.Updated_at)
 		if err != nil {
@@ -31,7 +31,7 @@ func GetAllType(db *sql.DB) (results []structs.Type, err error) {
 	return
 }
 
-func InsertType(db *sql.DB, tipe structs.Type) (err error) {
+func InsertType(db *sql.DB, tipe models.Type) (err error) {
 	sql := "INSERT INTO type (name) VALUES ($1)"
 
 	errs := db.QueryRow(sql, tipe.Name)
@@ -39,7 +39,7 @@ func InsertType(db *sql.DB, tipe structs.Type) (err error) {
 	return errs.Err()
 }
 
-func UpdateType(db *sql.DB, tipe structs.Type) (err error) {
+func UpdateType(db *sql.DB, tipe models.Type) (err error) {
 	sql := "UPDATE type SET name = $1, updated_at = $2 WHERE id = $3"
 
 	tipe.Updated_at = time.Now().Format(time.RFC3339)
@@ -49,7 +49,7 @@ func UpdateType(db *sql.DB, tipe structs.Type) (err error) {
 	return errs.Err()
 }
 
-func DeleteType(db *sql.DB, tipe structs.Type) (err error) {
+func DeleteType(db *sql.DB, tipe models.Type) (err error) {
 	sql := "DELETE FROM type WHERE id = $1"
 
 	errs := db.QueryRow(sql, tipe.ID)

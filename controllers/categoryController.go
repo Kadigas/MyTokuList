@@ -2,8 +2,8 @@ package controllers
 
 import (
 	"mytokulist/database"
+	"mytokulist/models"
 	"mytokulist/repository"
-	"mytokulist/structs"
 	"net/http"
 	"strconv"
 
@@ -31,7 +31,7 @@ func GetAllCategory(c *gin.Context) {
 }
 
 func InsertCategory(c *gin.Context) {
-	var category structs.Category
+	var category models.Category
 
 	err := c.ShouldBindJSON(&category)
 	if err != nil {
@@ -49,7 +49,7 @@ func InsertCategory(c *gin.Context) {
 }
 
 func UpdateCategory(c *gin.Context) {
-	var category structs.Category
+	var category models.Category
 
 	id, _ := strconv.Atoi(c.Param("id"))
 
@@ -71,7 +71,7 @@ func UpdateCategory(c *gin.Context) {
 }
 
 func DeleteCategory(c *gin.Context) {
-	var category structs.Category
+	var category models.Category
 
 	id, err := strconv.Atoi(c.Param("id"))
 
