@@ -28,19 +28,13 @@ type Movie struct {
 	Updated_at     string `json:"updated_at"`
 }
 
-type Account struct {
-	ID         int64  `json:"id"`
-	Email      string `json:"email"`
-	Password   string `json:"password"`
-	Created_at string `json:"created_at"`
-	Updated_at string `json:"updated_at"`
-}
-
 type Users struct {
 	ID         int64  `json:"id"`
 	Username   string `json:"username"`
-	Image_url  string `json:"image_url"`
-	Account_id int64  `json:"account_id"`
+	Email      string `json:"email"`
+	Password   string `json:"password"`
+	Role       string `json:"role"`
+	Created_at string `json:"created_at"`
 	Updated_at string `json:"updated_at"`
 }
 

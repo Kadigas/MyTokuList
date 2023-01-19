@@ -15,7 +15,7 @@ func GetAllMovie(c *gin.Context) {
 		result gin.H
 	)
 
-	categories, err := repository.GetAllMovie(database.DbConnection)
+	movies, err := repository.GetAllMovie(database.DbConnection)
 
 	if err != nil {
 		result = gin.H{
@@ -23,7 +23,7 @@ func GetAllMovie(c *gin.Context) {
 		}
 	} else {
 		result = gin.H{
-			"result": categories,
+			"result": movies,
 		}
 	}
 
@@ -31,14 +31,14 @@ func GetAllMovie(c *gin.Context) {
 }
 
 func InsertMovie(c *gin.Context) {
-	var tipe structs.Movie
+	var movie structs.Movie
 
-	err := c.ShouldBindJSON(&tipe)
+	err := c.ShouldBindJSON(&movie)
 	if err != nil {
 		panic(err)
 	}
 
-	err = repository.InsertMovie(database.DbConnection, tipe)
+	err = repository.InsertMovie(database.DbConnection, movie)
 	if err != nil {
 		panic(err)
 	}
@@ -49,18 +49,18 @@ func InsertMovie(c *gin.Context) {
 }
 
 func UpdateMovie(c *gin.Context) {
-	var tipe structs.Movie
+	var movie structs.Movie
 
 	id, _ := strconv.Atoi(c.Param("id"))
 
-	err := c.ShouldBindJSON(&tipe)
+	err := c.ShouldBindJSON(&movie)
 	if err != nil {
 		panic(err)
 	}
 
-	tipe.ID = int64(id)
+	movie.ID = int64(id)
 
-	err = repository.UpdateMovie(database.DbConnection, tipe)
+	err = repository.UpdateMovie(database.DbConnection, movie)
 	if err != nil {
 		panic(err)
 	}
@@ -71,7 +71,7 @@ func UpdateMovie(c *gin.Context) {
 }
 
 func DeleteMovie(c *gin.Context) {
-	var tipe structs.Movie
+	var movie structs.Movie
 
 	id, err := strconv.Atoi(c.Param("id"))
 
@@ -79,14 +79,39 @@ func DeleteMovie(c *gin.Context) {
 		panic(err)
 	}
 
-	tipe.ID = int64(id)
+	movie.ID = int64(id)
 
-	err = repository.DeleteMovie(database.DbConnection, tipe)
+	err = repository.DeleteMovie(database.DbConnection, movie)
 	if err != nil {
 		panic(err)
 	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"result": "Success Delete Movie",
+	})
+}
+
+func AttachMovie(c *gin.Context) {
+	var movie structs.Movie
+
+	id, _ := strconv.Atoi(c.Param("id"))
+
+	err := c.ShouldBindJSON(&movie)
+	if err != nil {
+		panic(err)
+	}
+
+	movie.ID = int64(id)
+
+	err = repository.AttachMovie(database.DbConnection, movie)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"result": "Category or Type is not valid.",
+		})
+		panic(err)
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"result": "Success Attach Movie with Category and Type",
 	})
 }

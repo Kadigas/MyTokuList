@@ -17,6 +17,8 @@ CREATE TABLE type (
 
 CREATE TYPE status AS ENUM ('Airing', 'Upcoming', 'Finished');
 
+CREATE TYPE roles AS ENUM ('Admin', 'User');
+
 CREATE TABLE movie (
     id SERIAL NOT NULL PRIMARY KEY,
     title VARCHAR(256),
@@ -31,19 +33,13 @@ CREATE TABLE movie (
     updated_at TIMESTAMP DEFAULT NOW()
 );
 
-CREATE TABLE account (
-    id SERIAL NOT NULL PRIMARY KEY,
-    email VARCHAR(256),
-    password VARCHAR(256),
-    created_at TIMESTAMP DEFAULT NOW(),
-    updated_at TIMESTAMP DEFAULT NOW()
-);
-
 CREATE TABLE users (
     id SERIAL NOT NULL PRIMARY KEY,
     username VARCHAR(256),
-    image_url VARCHAR(256),
-    account_id BIGINT,
+    email VARCHAR(256),
+    password VARCHAR(256),
+    role roles,
+    created_at TIMESTAMP DEFAULT NOW(),
     updated_at TIMESTAMP DEFAULT NOW()
 );
 
@@ -59,9 +55,6 @@ ADD CONSTRAINT fk_movie_category FOREIGN KEY (category_id) REFERENCES category (
 
 ALTER TABLE movie
 ADD CONSTRAINT fk_movie_type FOREIGN KEY (type_id) REFERENCES type (id);
-
-ALTER TABLE users
-ADD CONSTRAINT fk_users_account FOREIGN KEY (account_id) REFERENCES account (id);
 
 ALTER TABLE watchlist
 ADD CONSTRAINT fk_watchlist_users FOREIGN KEY (users_id) REFERENCES users (id);

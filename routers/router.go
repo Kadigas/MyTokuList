@@ -22,6 +22,7 @@ func StartServer() *gin.Engine {
 	router.GET("/movies", controllers.GetAllMovie)
 	router.POST("/movies", controllers.InsertMovie)
 	router.PUT("/movies/:id", controllers.UpdateMovie)
+	router.PATCH("/movies/:id/attach", controllers.AttachMovie)
 	router.DELETE("/movies/:id", controllers.DeleteMovie)
 
 	return router

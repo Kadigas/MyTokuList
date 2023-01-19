@@ -34,6 +34,18 @@ func GetAllMovie(db *sql.DB) (results []structs.Movie, err error) {
 func InsertMovie(db *sql.DB, movie structs.Movie) (err error) {
 	sql := "INSERT INTO Movie (title, description, image_url, air_date, total_episode, current_status, category_id, type_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)"
 
+	if movie.Description == "" {
+		movie.Description = "Descriptions of this movie will be added."
+	}
+
+	if movie.Air_date == "" {
+		movie.Air_date = "TBA"
+	}
+
+	if movie.Total_episode == "" {
+		movie.Total_episode = "TBA"
+	}
+
 	errs := db.QueryRow(sql, movie.Title, movie.Description, movie.Image_url, movie.Air_date, movie.Total_episode, movie.Current_status, movie.Category_id, movie.Type_id)
 
 	return errs.Err()
@@ -41,6 +53,18 @@ func InsertMovie(db *sql.DB, movie structs.Movie) (err error) {
 
 func UpdateMovie(db *sql.DB, movie structs.Movie) (err error) {
 	sql := "UPDATE Movie SET title = $1, updated_at = $2, description = $3, image_url = $4, air_date = $5, total_episode = $6, current_status = $7 WHERE id = $8"
+
+	if movie.Description == "" {
+		movie.Description = "Descriptions of this movie will be added."
+	}
+
+	if movie.Air_date == "" {
+		movie.Air_date = "TBA"
+	}
+
+	if movie.Total_episode == "" {
+		movie.Total_episode = "TBA"
+	}
 
 	movie.Updated_at = time.Now().Format(time.RFC3339)
 
