@@ -15,4 +15,4 @@
 # vendor/
 
 # ENV
-*.env
+#*.env
