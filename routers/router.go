@@ -3,6 +3,7 @@ package routers
 import (
 	"mytokulist/controllers"
 	"mytokulist/middleware"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -10,6 +11,11 @@ import (
 func StartServer() *gin.Engine {
 	router := gin.Default()
 
+	router.GET("/", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
+			"message": "Welcome to MyTokuList!",
+		})
+	})
 	router.POST("/signup", controllers.Register)
 	router.POST("/login", controllers.Login)
 
