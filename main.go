@@ -41,6 +41,6 @@ func main() {
 
 	defer DB.Close()
 
-	routers.StartServer().Run("localhost:8080")
+	routers.StartServer().Run(":" + os.Getenv("PORT"))
 
 }
