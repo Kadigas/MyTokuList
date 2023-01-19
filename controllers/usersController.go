@@ -115,14 +115,83 @@ func Login(c *gin.Context) {
 	c.SetCookie("Authorization", tokenString, 3600*12, "", "", false, true)
 
 	c.JSON(http.StatusOK, gin.H{
-		"token":  tokenString,
-		"claims": token,
+		"token": tokenString,
 	})
 
 }
 
-func Validate(c *gin.Context) {
+func Logout(c *gin.Context) {
+	tokenString, err := c.Cookie("Authorization")
+
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"error": "Unauthorized",
+		})
+		c.Abort()
+		return
+	}
+
+	c.SetCookie("Authorization", tokenString, -1, "", "", false, true)
+
 	c.JSON(http.StatusOK, gin.H{
-		"message": "Logged in",
+		"message": "You're logged out",
+	})
+}
+
+func Validate(c *gin.Context) {
+	user, _ := c.Get("user")
+	c.JSON(http.StatusOK, gin.H{
+		"message":   "Logged in as",
+		"user_data": user,
+	})
+}
+
+func NewPassword(c *gin.Context) {
+	db := database.DbConnection
+	var body struct {
+		Password string
+	}
+
+	if c.ShouldBindJSON(&body) != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Failed to read body",
+		})
+
+		return
+	}
+
+	user, _ := c.Get("user")
+	ok := bcrypt.CompareHashAndPassword([]byte(user.(models.Users).Password), []byte(body.Password))
+	if ok == nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Password is same as old password.",
+		})
+		c.Abort()
+		return
+	}
+
+	hash, err := bcrypt.GenerateFromPassword([]byte(body.Password), bcrypt.DefaultCost)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Failed to hash password",
+		})
+
+		return
+	}
+
+	sql := "UPDATE Users SET password = $1, updated_at = $ 2 WHERE id = $3"
+
+	err = db.QueryRow(sql, hash, time.Now().Format(time.RFC3339), user.(models.Users).ID).Err()
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Failed to update password",
+		})
+		c.Abort()
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Success to update password",
 	})
 }

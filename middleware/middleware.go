@@ -2,6 +2,8 @@ package middleware
 
 import (
 	"fmt"
+	"mytokulist/database"
+	"mytokulist/models"
 	"net/http"
 	"os"
 	"time"
@@ -10,7 +12,7 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 )
 
-func RequiredAuth(role string) gin.HandlerFunc {
+func RequiredAuth(auth string) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		tokenString, err := c.Cookie("Authorization")
 
@@ -50,14 +52,27 @@ func RequiredAuth(role string) gin.HandlerFunc {
 				return
 			}
 
-			if claims["role"] != role {
+			if claims["role"] != auth && auth != "isLogin" {
 				c.JSON(http.StatusUnauthorized, gin.H{
-					"error": claims["role"],
+					"error": "Unauthorized",
 				})
 				c.Abort()
 
 				return
 			}
+
+			db := database.DbConnection
+			var user = models.Users{}
+
+			//scan into db
+			sql := "SELECT * FROM users WHERE id = $1"
+			err := db.QueryRow(sql, claims["id"]).Scan(&user.ID, &user.Username, &user.Email, &user.Password, &user.Role, &user.Created_at, &user.Updated_at)
+
+			if err != nil {
+				c.AbortWithStatus(http.StatusUnauthorized)
+			}
+
+			c.Set("user", user)
 
 			c.Next()
 		} else {

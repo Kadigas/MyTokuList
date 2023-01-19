@@ -12,7 +12,10 @@ func StartServer() *gin.Engine {
 
 	router.POST("/signup", controllers.Register)
 	router.POST("/login", controllers.Login)
-	router.GET("/validate", middleware.RequiredAuth("User"), controllers.Validate)
+
+	router.GET("/home", middleware.RequiredAuth("isLogin"), controllers.Validate)
+	router.POST("/logout", middleware.RequiredAuth("isLogin"), controllers.Logout)
+	router.POST("/new-password", middleware.RequiredAuth("isLogin"), controllers.NewPassword)
 
 	router.GET("/categories", controllers.GetAllCategory)
 	router.POST("/categories", controllers.InsertCategory)
