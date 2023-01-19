@@ -22,6 +22,7 @@ func StartServer() *gin.Engine {
 
 	router.GET("/home", middleware.RequiredAuth("User"), controllers.Validate)
 	router.PUT("/new-password", middleware.RequiredAuth("User"), controllers.NewPassword)
+	router.GET("/list-user", middleware.RequiredAuth("User"), controllers.GetUsers)
 
 	router.GET("/categories", controllers.GetAllCategory)
 	router.POST("/categories", middleware.RequiredAuth("Admin"), controllers.InsertCategory)
