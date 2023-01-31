@@ -1,4 +1,3 @@
-# fp-sanbercode-go-batch-41
 # MyTokuList
 
 ## Andhika Ditya Bagaskara D
@@ -59,6 +58,10 @@ Berikut adalah list endpoint yang dapat diakses oleh user:
 | POST   | /watchlist     | Menambahkan watchlist user         |
 | DELETE | /watchlist/:id | Menghapus watchlist berdasarkan id |
 
+<img width="965" alt="image" src="https://user-images.githubusercontent.com/87473932/215767644-aa1a89b4-fe32-40bd-bc37-0d7899c66f2a.png">
+
+<img width="967" alt="image" src="https://user-images.githubusercontent.com/87473932/215767503-3f3f2b23-84a9-49e9-80fa-853485a6e71b.png">
+
 ## Admin
 Berikut adalah list endpoint yang dapat diakses oleh admin:
 
@@ -77,12 +80,17 @@ Berikut adalah list endpoint yang dapat diakses oleh admin:
 | PUT    | /types/:id | Mengupdate tipe film berdasarkan id |
 | DELETE | /types:/id | Menghapus tipe film berdasarkan id  |
 
+<img width="955" alt="image" src="https://user-images.githubusercontent.com/87473932/215766229-54b33e05-96f0-4aa4-88ae-e7b85a3cf3b7.png">
+
 ### /CATEGORIES
 | Method | Endpoint        | Description                        |
 |--------|-----------------|------------------------------------|
 | POST   | /categories     | Menambahkan kategori baru          |
 | PUT    | /categories/:id | Mengupdate kategori berdasarkan id |
 | DELETE | /categories:/id | Menghapus kategori berdasarkan id  |
+
+<img width="959" alt="image" src="https://user-images.githubusercontent.com/87473932/215766479-0c7709f8-5da1-4536-ba41-fa93b4918b18.png">
+
 
 ### /MOVIES
 | Method | Endpoint    | Description                                                |
@@ -92,3 +100,6 @@ Berikut adalah list endpoint yang dapat diakses oleh admin:
 | DELETE | /movies:/id | Menghapus film berdasarkan id                              |
 | PATCH  | /movies/:id | Menambahkan kategori dan tipe ke tabel film berdasarkan id |
 
+<img width="960" alt="image" src="https://user-images.githubusercontent.com/87473932/215766663-105289a7-f26a-4ee8-8931-705a8f45ad3f.png">
+
+#### Perlu diperhatikan, method `PUT` pada endpoint di atas membutuhkan semua atribut `movies` kecuali `category_id` dan `types_id`, sebaliknya, method `PATCH` hanya membutuhkan atribut `category_id` dan `types_id`. Hal ini dikarenakan method `PATCH` dimaksudkan untuk meng-attach / update `category` dan `types` saja pada `movies`
